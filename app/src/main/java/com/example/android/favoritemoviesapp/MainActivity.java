@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    final static String MOVIEDB_POSTER_BASE_URL = " http://image.tmdb.org/t/p/";
+    final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     final static String IMAGE_SIZE = "w185";
 
     private ArrayList<Movie> mMoviesArray;
