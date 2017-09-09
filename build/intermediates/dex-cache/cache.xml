@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_42ced0665b1c8870d1fb80767d9f5035d578fbd9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a0299054d628620e1975239c5e62e4dbe908e589">
+        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_9c2e90f42bc09eaf65e208ea04d51b995941b913\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\estef\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_fe264bb9d2b846d92862d0c04c025c96e8645c8c\classes.dex" />
+    </item>
+
+</items>
