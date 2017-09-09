@@ -19,18 +19,29 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends ArrayAdapter<Movie> {
 
-    private final Context context;
-    private ArrayList<Movie> mMoviesArray;
     private static final String TAG = MovieAdapter.class.getSimpleName();
 
-    public MovieAdapter(Activity context, ArrayList<Movie> movies) {
+    private final Context context;
+    private ArrayList<Movie> mMoviesArray;
+    private final MovieAdapterOnClickHandler mClickHandler;
+
+    public MovieAdapter(Activity context, ArrayList<Movie> movies, MovieAdapterOnClickHandler clickHandler) {
         super(context, 0, movies);
         this.context = context;
-        this.mMoviesArray = movies;
+        mMoviesArray = movies;
+        mClickHandler = clickHandler;
+    }
+
+    /**
+     * Interface to implement onClick handler
+     */
+
+    public interface MovieAdapterOnClickHandler {
+        void onClick(Movie movie);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ImageView movieView;
 
@@ -41,7 +52,14 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             movieView = (ImageView) convertView;
         }
 
-        Movie movie = getItem(position);
+        final Movie movie = getItem(position);
+
+        movieView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickHandler.onClick(movie);
+            }
+        });
 
         String posterPath = movie.getMoviePosterPath();
 
@@ -58,7 +76,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
 
         return movieView;
-
     }
 
     @Override

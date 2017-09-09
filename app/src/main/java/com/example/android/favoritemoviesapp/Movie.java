@@ -33,7 +33,7 @@ public class Movie implements Parcelable {
         moviePlot = in.readString();
     }
 
-//    Getters
+//    Getter Methods
 
     public String getMovieTitle() {
         return this.movieTitle;
@@ -55,7 +55,7 @@ public class Movie implements Parcelable {
         return this.moviePlot;
     }
 
-//    Setters
+//    Setter Methods
 
     public void setMovieTitle(String title) {
         this.movieTitle = title;
@@ -78,8 +78,7 @@ public class Movie implements Parcelable {
     }
 
 
-//    Implementing Parcelable
-
+//    Implementing Parcelable Class
 
     @Override
     public int describeContents() {
@@ -95,7 +94,7 @@ public class Movie implements Parcelable {
         parcel.writeString(moviePlot);
     }
 
-    public final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    public static Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
 
         @Override
         public Movie createFromParcel(Parcel parcel) {

@@ -1,5 +1,7 @@
 package com.example.android.favoritemoviesapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -141,8 +143,23 @@ public class MainActivity extends AppCompatActivity {
      * Sets the Movie Adapter to the GridView, the main layout that will contain movie posters
      */
     private void setAdapter() {
-        MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray);
+        MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
         GridView mainGridView = (GridView) findViewById(R.id.root_grid_view);
         mainGridView.setAdapter(movieAdapter);
+    }
+
+    /**
+     * Implementation of the onClick method in the MovieAdapter class
+     * It lanches an activity passing the corresponding movie object
+     * @param movie A Movie instance that corresponds to the item clicked
+     */
+
+    @Override
+    public void onClick(Movie movie) {
+        Context context = this;
+        Class destinationActivity = DetailsActivity.class;
+        Intent intent = new Intent(context, destinationActivity);
+        intent.putExtra("movieObject", movie);
+        startActivity(intent);
     }
 }
