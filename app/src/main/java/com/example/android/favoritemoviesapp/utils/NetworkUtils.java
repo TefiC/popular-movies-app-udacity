@@ -36,7 +36,7 @@ public class NetworkUtils {
 
         URL url = null;
 
-        if(sortBy == "popular" || sortBy == "top_rated") {
+        if (sortBy == "popular" || sortBy == "top_rated") {
 
             Uri buildUri = Uri.parse(MOVIEDB_URL + sortBy).buildUpon()
                     .appendQueryParameter(PARAM_KEY, API_KEY)

@@ -56,6 +56,7 @@ public class Movie implements Parcelable {
     }
 
 //    Setters
+
     public void setMovieTitle(String title) {
         this.movieTitle = title;
     }
