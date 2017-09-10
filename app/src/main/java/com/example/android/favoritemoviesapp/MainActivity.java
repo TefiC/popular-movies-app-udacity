@@ -5,7 +5,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Spinner;
 
 import com.example.android.favoritemoviesapp.utils.NetworkUtils;
 
@@ -17,9 +24,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static MovieAdapter mMovieAdapter;
+    private GridView mainGridView;
 
     final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     final static String IMAGE_SIZE = "w185";
@@ -31,8 +40,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String defaultCriteria = "popular";
+
         try {
-            makeSearchQuery();
+            makeSearchQuery(defaultCriteria);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,8 +64,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Makes a query to the MoviesDB API
      * @throws IOException
      */
-    public void makeSearchQuery() throws IOException {
-        String searchCriteria = "popular";
+    public void makeSearchQuery(String searchCriteria) throws IOException {
         URL searchURL = NetworkUtils.buildURL(searchCriteria);
         new QueryTask().execute(searchURL);
     }
@@ -69,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             URL searchUrl = urls[0];
             String searchResults = null;
 
+//            Log.v(TAG, searchUrl.toString());
+
             try {
                 searchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
             } catch (IOException e) {
@@ -81,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected void onPostExecute(String s) {
             createMovieObjects(s);
+//            Log.v(TAG, s.toString());
             setAdapter();
         }
     }
@@ -143,9 +156,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Sets the Movie Adapter to the GridView, the main layout that will contain movie posters
      */
     private void setAdapter() {
-        MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
-        GridView mainGridView = (GridView) findViewById(R.id.root_grid_view);
-        mainGridView.setAdapter(movieAdapter);
+        mMovieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
+        mMovieAdapter.notifyDataSetChanged();
+
+        mainGridView = (GridView) findViewById(R.id.root_grid_view);
+        mainGridView.invalidateViews();
+        mainGridView.setAdapter(mMovieAdapter);
     }
 
     /**
@@ -161,5 +177,67 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Intent intent = new Intent(context, destinationActivity);
         intent.putExtra("movieObject", movie);
         startActivity(intent);
+    }
+
+
+    // Menu methods
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        createSpinner(menu);
+        return true;
+    }
+
+    private void createSpinner(Menu menu) {
+
+        MenuItem spinner = menu.findItem(R.id.sort_spinner);
+        Spinner spinnerView = (Spinner) spinner.getActionView();
+
+        spinnerView.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.sorting_options_array, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerView.setAdapter(adapter);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        Log.v("MainActivity", parent.getItemAtPosition(pos).toString());
+
+        String searchCriteria = parent.getItemAtPosition(pos).toString();
+
+        Log.v(TAG, "Search criteria is: " + searchCriteria);
+
+        switch(searchCriteria) {
+            case "Most Popular":
+            case "Top Rated":
+                if (mMovieAdapter != null) {
+                    try {
+                        makeSearchQuery(searchCriteria);
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            default:
+                Log.e(TAG, "Error, clicked on invalid option");
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        //
     }
 }

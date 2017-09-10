@@ -1,6 +1,7 @@
 package com.example.android.favoritemoviesapp.utils;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +24,6 @@ public class NetworkUtils {
     final static String PARAM_KEY = "api_key";
 //    final static String API_KEY; // TODO: add MoviesDB API key
 
-
-    private String sortBy;
     private String finalBaseUrl;
 
     /**
@@ -37,12 +36,23 @@ public class NetworkUtils {
 
         URL url = null;
 
-        if (sortBy == "popular" || sortBy == "top_rated") {
+        String criteria = null;
 
-            Uri buildUri = Uri.parse(MOVIEDB_URL + sortBy).buildUpon()
+        Log.v("NetworkUtils", sortBy);
+
+        if (sortBy == "Most Popular") {
+            criteria = "popular";
+        } else if (sortBy == "Top Rated") {
+            criteria = "top_rated";
+        } else {
+            criteria = "popular";
+        }
+
+        if (criteria != null) {
+
+            Uri buildUri = Uri.parse(MOVIEDB_URL + criteria).buildUpon()
                     .appendQueryParameter(PARAM_KEY, API_KEY)
                     .build();
-
             try {
                 url = new URL(buildUri.toString());
             } catch (MalformedURLException e) {
