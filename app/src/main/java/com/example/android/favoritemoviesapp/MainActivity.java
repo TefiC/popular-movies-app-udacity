@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             URL searchUrl = urls[0];
             String searchResults = null;
 
-//            Log.v(TAG, searchUrl.toString());
-
             try {
                 searchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
             } catch (IOException e) {
@@ -93,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected void onPostExecute(String s) {
             createMovieObjects(s);
-//            Log.v(TAG, s.toString());
             setAdapter();
         }
     }
@@ -213,11 +210,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Log.v("MainActivity", parent.getItemAtPosition(pos).toString());
 
         String searchCriteria = parent.getItemAtPosition(pos).toString();
-
-        Log.v(TAG, "Search criteria is: " + searchCriteria);
 
         switch(searchCriteria) {
             case "Most Popular":
@@ -225,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 if (mMovieAdapter != null) {
                     try {
                         makeSearchQuery(searchCriteria);
-                        break;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

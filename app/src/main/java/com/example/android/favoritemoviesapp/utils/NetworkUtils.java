@@ -1,7 +1,6 @@
 package com.example.android.favoritemoviesapp.utils;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,13 +15,15 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
+    private static final String TAG = NetworkUtils.class.getSimpleName();
+
     final static String MOVIEDB_URL = "https://api.themoviedb.org/3/movie/";
 
     // Parameters to build the URL
     final static String PARAM_QUERY = "q";
 
     final static String PARAM_KEY = "api_key";
-//    final static String API_KEY; // TODO: add MoviesDB API key
+    //    final static String API_KEY; // TODO: add MoviesDB API key
 
     private String finalBaseUrl;
 
@@ -38,14 +39,16 @@ public class NetworkUtils {
 
         String criteria = null;
 
-        Log.v("NetworkUtils", sortBy);
-
-        if (sortBy == "Most Popular") {
-            criteria = "popular";
-        } else if (sortBy == "Top Rated") {
-            criteria = "top_rated";
-        } else {
-            criteria = "popular";
+        switch (sortBy) {
+            case "Most Popular":
+                criteria = "popular";
+                break;
+            case "Top Rated":
+                criteria = "top_rated";
+                break;
+            default:
+                criteria = "popular";
+                break;
         }
 
         if (criteria != null) {
