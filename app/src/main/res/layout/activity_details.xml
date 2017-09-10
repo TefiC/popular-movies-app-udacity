@@ -1,80 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.android.favoritemoviesapp.DetailsActivity">
+    android:layout_width="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/main_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.android.favoritemoviesapp.DetailsActivity">
 
         <ImageView
             android:id="@+id/movie_details_poster_view"
-            android:layout_width="200dp"
-            android:layout_height="270dp"
-            android:src="@drawable/mom"
-            android:scaleType="centerCrop"/>
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@android:color/black"
+            android:src="@drawable/pirate"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/movie_details_poster_view">
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="6dp">
 
-            <TextView
-                android:id="@+id/movie_details_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Anna Kanenina"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="25sp"
-                android:textAlignment="center"/>
-            
-            <TextView
-                android:id="@+id/movie_details_release_date"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="Vote average"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent">
+
+                    <TextView
+                        android:id="@+id/movie_details_vote_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="8.6 / 10"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="December 26th 2017"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp">
 
-            <TextView
-                android:id="@+id/movie_details_votes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="8.6 / 10" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="Release date"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent">
+
+                    <TextView
+                        android:id="@+id/movie_details_release_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="09/26/1996"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                </FrameLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/movie_details_plot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="0dp"
-        android:text="lorem ipsum lorem ipsumlorem ipsum
-lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
-lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum" />
+        <TextView
+            android:id="@+id/movie_details_plot_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="14"
+            android:padding="16dp"
+            android:scrollbars="vertical"
+            android:text="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat." />
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

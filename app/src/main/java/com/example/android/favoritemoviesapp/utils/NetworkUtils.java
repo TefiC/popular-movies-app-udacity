@@ -21,7 +21,8 @@ public class NetworkUtils {
     final static String PARAM_QUERY = "q";
 
     final static String PARAM_KEY = "api_key";
-    final static String API_KEY; // TODO: add MoviesDB API key
+//    final static String API_KEY; // TODO: add MoviesDB API key
+
 
     private String sortBy;
     private String finalBaseUrl;
