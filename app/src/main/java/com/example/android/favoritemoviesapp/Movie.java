@@ -15,7 +15,9 @@ public class Movie implements Parcelable {
     private double movieVoteAverage;
     private String moviePlot;
 
-//    Constructors
+    /**
+     * Constructors
+     */
 
     public Movie(String movieTitle, String movieReleaseDate, String moviePoster, double movieVoteAverage, String moviePlot) {
         this.movieTitle = movieTitle;
@@ -33,7 +35,9 @@ public class Movie implements Parcelable {
         moviePlot = in.readString();
     }
 
-//    Getter Methods
+    /**
+     * Getter methods
+     */
 
     public String getMovieTitle() {
         return this.movieTitle;
@@ -55,7 +59,9 @@ public class Movie implements Parcelable {
         return this.moviePlot;
     }
 
-//    Setter Methods
+    /**
+     * Setter methods
+     */
 
     public void setMovieTitle(String title) {
         this.movieTitle = title;
@@ -78,7 +84,9 @@ public class Movie implements Parcelable {
     }
 
 
-//    Implementing Parcelable Class
+    /**
+     * Implementing parcelable class
+     */
 
     @Override
     public int describeContents() {

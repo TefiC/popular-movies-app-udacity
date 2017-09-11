@@ -29,9 +29,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static final String TAG = MainActivity.class.getSimpleName();
     private static MovieAdapter mMovieAdapter;
     private GridView mainGridView;
+    private MenuItem spinner;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
+    private String mSearchCriteria;
+    private Spinner spinnerObject;
 
     final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     final static String IMAGE_SIZE = "w185";
+
+    private boolean spinnerClicked = false;
 
     private ArrayList<Movie> mMoviesArray;
 
@@ -40,12 +46,25 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String defaultCriteria = "popular";
 
-        try {
-            makeSearchQuery(defaultCriteria);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        // Check if there is a previous state to be restored
+        if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+            String defaultCriteria = "popular";
+            try {
+                makeSearchQuery(defaultCriteria);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mMoviesArray = savedInstanceState.getParcelableArrayList("movies");
+            setAdapter();
+
+            Log.v(TAG, Integer.toString(savedInstanceState.getInt("sortBy")));
+
+            //TODO (1.1): FIX BUG CAUSING SPINNER TO REFRESH ON ROTATION
+//            Spinner spinnerWidget = (Spinner) spinner;
+//            spinnerWidget.setSelection(savedInstanceState.getInt("sortBy"));
         }
     }
 
@@ -60,11 +79,29 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMoviesArray = moviesArray;
     }
 
+
+    /**
+     * Saves the current moviesArray to avoid fetching data from API on rotation
+     *
+     * @param outState The state that will be passed to onCreate
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("movies", mMoviesArray);
+
+        //TODO (1.2): FIX BUG CAUSING SPINNER TO REFRESH ON ROTATION
+
+        super.onSaveInstanceState(outState);
+    }
+
     /**
      * Makes a query to the MoviesDB API
+     *
      * @throws IOException
      */
     public void makeSearchQuery(String searchCriteria) throws IOException {
+        // TODO: REMOVE THIS DEBUGGING STATEMENT
+//        Log.v(TAG, "QUERY!!!!!!!!!!!!!!!!!!");
         URL searchURL = NetworkUtils.buildURL(searchCriteria);
         new QueryTask().execute(searchURL);
     }
@@ -98,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * From the data received from the network request, create an array of Movie objects
      * to store in a class member variable
+     *
      * @param JSONString the JSON response in String format
      */
     public void createMovieObjects(String JSONString) {
@@ -109,17 +147,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             JSONArray resultsArray = JSONObject.optJSONArray("results");
 
             int i;
-            for(i=0; i<resultsArray.length(); i++) {
+            for (i = 0; i < resultsArray.length(); i++) {
 
                 JSONObject movie = resultsArray.getJSONObject(i);
                 Movie movieObject = createMovie(movie);
 
-                if(movieObject != null) {
+                if (movieObject != null) {
                     movieArray.add(createMovie(movie));
                 }
             }
 
-            if(movieArray.size() > 0) {
+            if (movieArray.size() > 0) {
                 setMovieArray(movieArray);
             }
 
@@ -130,13 +168,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /**
      * Creates a Movie object from a JSON Object fetched from the network
+     *
      * @param movie a JSONObject containing the data for a movie
      * @return Movie object
      */
     private Movie createMovie(JSONObject movie) {
         try {
             String title = movie.getString("title");
-            String posterPath =  MOVIEDB_POSTER_BASE_URL + IMAGE_SIZE + movie.getString("poster_path");
+            String posterPath = MOVIEDB_POSTER_BASE_URL + IMAGE_SIZE + movie.getString("poster_path");
             String plot = movie.getString("overview");
             String releaseDate = movie.getString("release_date");
             Double voteAverage = movie.getDouble("vote_average");
@@ -147,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             e.printStackTrace();
             return null;
         }
-    };
+    }
 
     /**
      * Sets the Movie Adapter to the GridView, the main layout that will contain movie posters
@@ -164,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * Implementation of the onClick method in the MovieAdapter class
      * It lanches an activity passing the corresponding movie object
+     *
      * @param movie A Movie instance that corresponds to the item clicked
      */
 
@@ -176,9 +216,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(intent);
     }
 
-
-    // Menu methods
-
+    // Menu methods ========================================================
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,23 +227,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void createSpinner(Menu menu) {
 
-        MenuItem spinner = menu.findItem(R.id.sort_spinner);
+        spinner = menu.findItem(R.id.sort_spinner);
+
+        spinnerObject = (Spinner) findViewById(R.id.sort_spinner);
+
         Spinner spinnerView = (Spinner) spinner.getActionView();
 
         spinnerView.setOnItemSelectedListener(this);
 
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.sorting_options_array, android.R.layout.simple_spinner_item);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.sorting_options_array, R.layout.spinner_item);
 
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
-        spinnerView.setAdapter(adapter);
+        spinnerView.setAdapter(spinnerAdapter);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -217,19 +253,29 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         String searchCriteria = parent.getItemAtPosition(pos).toString();
 
-        switch(searchCriteria) {
-            case "Most Popular":
+        mSearchCriteria = searchCriteria;
+
+        switch (searchCriteria) {
             case "Top Rated":
-                if (mMovieAdapter != null) {
+                try {
+                    makeSearchQuery(searchCriteria);
+                    spinnerClicked = true;
+                    break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            case "Most Popular":
+                //Avoid making extra query the first time app is launched
+                if (spinnerClicked) {
                     try {
                         makeSearchQuery(searchCriteria);
+                        break;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-                break;
             default:
-                Log.e(TAG, "Error, clicked on invalid option");
+                break;
         }
     }
 

@@ -25,8 +25,6 @@ public class NetworkUtils {
     final static String PARAM_KEY = "api_key";
     //    final static String API_KEY; // TODO: add MoviesDB API key
 
-    private String finalBaseUrl;
-
     /**
      * Build the URL used to query MovieDB
      *
