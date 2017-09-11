@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,27 +25,28 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler, AdapterView.OnItemSelectedListener {
 
+    /**
+     * Fields and constants
+     */
+
+    // Tag for logging
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static MovieAdapter mMovieAdapter;
-    private GridView mainGridView;
-    private MenuItem spinner;
-    private ArrayAdapter<CharSequence> spinnerAdapter;
-    private String mSearchCriteria;
-    private Spinner spinnerObject;
 
-    final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
-    final static String IMAGE_SIZE = "w185";
-
+    private String mSearchCriteria = "Most Popular"; // Default sort criteria
     private boolean spinnerClicked = false;
-
     private ArrayList<Movie> mMoviesArray;
+
+    private final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
+    private final static String IMAGE_SIZE = "w185";
+
+    /**
+     * Methods
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         // Check if there is a previous state to be restored
         if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
@@ -57,24 +57,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 e.printStackTrace();
             }
         } else {
+            //Retrieve data
             mMoviesArray = savedInstanceState.getParcelableArrayList("movies");
+            mSearchCriteria = savedInstanceState.getString("criteria");
+
             setAdapter();
-
-            Log.v(TAG, Integer.toString(savedInstanceState.getInt("sortBy")));
-
-            //TODO (1.1): FIX BUG CAUSING SPINNER TO REFRESH ON ROTATION
-//            Spinner spinnerWidget = (Spinner) spinner;
-//            spinnerWidget.setSelection(savedInstanceState.getInt("sortBy"));
         }
     }
 
-    //Getters
+    /**
+     * Getters
+     */
 
     public ArrayList<Movie> getMovieArray() {
         return mMoviesArray;
     }
 
-    //Setters
+    /**
+     * Setters
+     */
+
     public void setMovieArray(ArrayList<Movie> moviesArray) {
         mMoviesArray = moviesArray;
     }
@@ -88,8 +90,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList("movies", mMoviesArray);
-
-        //TODO (1.2): FIX BUG CAUSING SPINNER TO REFRESH ON ROTATION
+        outState.putString("criteria", mSearchCriteria);
 
         super.onSaveInstanceState(outState);
     }
@@ -100,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * @throws IOException
      */
     public void makeSearchQuery(String searchCriteria) throws IOException {
-        // TODO: REMOVE THIS DEBUGGING STATEMENT
-//        Log.v(TAG, "QUERY!!!!!!!!!!!!!!!!!!");
         URL searchURL = NetworkUtils.buildURL(searchCriteria);
         new QueryTask().execute(searchURL);
     }
@@ -192,10 +191,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Sets the Movie Adapter to the GridView, the main layout that will contain movie posters
      */
     private void setAdapter() {
-        mMovieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
+        MovieAdapter mMovieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
         mMovieAdapter.notifyDataSetChanged();
 
-        mainGridView = (GridView) findViewById(R.id.root_grid_view);
+        GridView mainGridView = (GridView) findViewById(R.id.root_grid_view);
         mainGridView.invalidateViews();
         mainGridView.setAdapter(mMovieAdapter);
     }
@@ -222,25 +221,36 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         createSpinner(menu);
+
         return true;
     }
 
+    /**
+     * Creates a Spinner feature in the menu bar with custom layout and format
+     * that shows the corresponding selection, even after rotation.
+     * @param menu The menu being created
+     */
+
     private void createSpinner(Menu menu) {
 
-        spinner = menu.findItem(R.id.sort_spinner);
-
-        spinnerObject = (Spinner) findViewById(R.id.sort_spinner);
-
+        // Get spinner and spinner view
+        MenuItem spinner = menu.findItem(R.id.sort_spinner);
         Spinner spinnerView = (Spinner) spinner.getActionView();
 
+        // Set listener
         spinnerView.setOnItemSelectedListener(this);
 
-        spinnerAdapter = ArrayAdapter.createFromResource(this,
+        // Create spinner adapter
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.sorting_options_array, R.layout.spinner_item);
 
+        // Custom dropdown layout
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         spinnerView.setAdapter(spinnerAdapter);
+
+        // To make sure that on device rotation the previous selection is kept
+        spinnerView.setSelection(spinnerAdapter.getPosition(mSearchCriteria));
     }
 
     @Override

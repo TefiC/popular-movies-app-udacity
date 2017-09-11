@@ -49,16 +49,13 @@ public class NetworkUtils {
                 break;
         }
 
-        if (criteria != null) {
-
-            Uri buildUri = Uri.parse(MOVIEDB_URL + criteria).buildUpon()
-                    .appendQueryParameter(PARAM_KEY, API_KEY)
-                    .build();
-            try {
-                url = new URL(buildUri.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        Uri buildUri = Uri.parse(MOVIEDB_URL + criteria).buildUpon()
+                .appendQueryParameter(PARAM_KEY, API_KEY)
+                .build();
+        try {
+            url = new URL(buildUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
 
         return url;
