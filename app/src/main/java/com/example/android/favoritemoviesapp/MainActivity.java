@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.favoritemoviesapp.utils.NetworkUtils;
@@ -29,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Fields
      */
 
-    // Tag for logging
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private String mSearchCriteria = "Most Popular"; // Default sort criteria
     private ArrayList<Movie> mMoviesArray = null;
 
@@ -42,8 +40,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Constants
      */
 
+    // Tag for logging
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private final static String IMAGE_SIZE = "w185";
+
+    ProgressBar mProgressBar;
 
     /**
      * Methods
@@ -56,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
         // Check if there is a previous state to be restored
         if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
-            String defaultCriteria = "popular";
+            String defaultCriteria = "Most Popular";
             try {
                 makeSearchQuery(defaultCriteria);
             } catch (IOException e) {
@@ -128,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public class QueryTask extends AsyncTask<URL, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected String doInBackground(URL... urls) {
             URL searchUrl = urls[0];
             String searchResults = null;
@@ -143,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         @Override
         protected void onPostExecute(String s) {
+            mProgressBar.setVisibility(View.INVISIBLE);
             createMovieObjects(s);
             setAdapter();
         }

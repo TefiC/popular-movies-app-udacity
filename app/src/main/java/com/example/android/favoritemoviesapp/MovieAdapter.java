@@ -65,9 +65,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         if (posterPath != null) {
             Picasso.with(context)
-                    .setLoggingEnabled(true);
-
-            Picasso.with(context)
                     .load(posterPath)
                     .placeholder(R.drawable.placeholder)
                     .fit()
@@ -82,6 +79,14 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     public int getCount() {
         return mMoviesArray.size();
     }
+
+    /**
+     * Method that searches the Movie at the current adapter position
+     * in the mMoviesArray array list.
+     *
+     * @param position Index of the Movie we need to retrieve
+     * @return the Movie instance at position in mMoviesArray
+     */
 
     @Nullable
     @Override

@@ -63,6 +63,7 @@ public class NetworkUtils {
             case "Top Rated":
                 criteria = "top_rated";
                 break;
+            // Handle any unexpected case
             default:
                 criteria = "popular";
                 break;
@@ -76,6 +77,7 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
         return url;
     }
 
