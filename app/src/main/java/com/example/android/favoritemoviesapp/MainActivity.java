@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private String mSearchCriteria = "Most Popular"; // Default sort criteria
     private ArrayList<Movie> mMoviesArray = null;
+    private GridView mMainGridView;
+    private MovieAdapter mMovieAdapter;
+    private int mGridPosition;
 
     // To determine if app is launched for the first time (0) or not (1)
     private int mResumed = 0;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private final static String IMAGE_SIZE = "w185";
+
 
     ProgressBar mProgressBar;
 
@@ -219,12 +223,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Sets the Movie Adapter to the GridView, the main layout that will contain movie posters
      */
     private void setAdapter() {
-        MovieAdapter mMovieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
+        mMovieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
         mMovieAdapter.notifyDataSetChanged();
 
-        GridView mainGridView = (GridView) findViewById(R.id.root_grid_view);
-        mainGridView.invalidateViews();
-        mainGridView.setAdapter(mMovieAdapter);
+        mMainGridView = (GridView) findViewById(R.id.root_grid_view);
+        mMainGridView.invalidateViews();
+        mMainGridView.setAdapter(mMovieAdapter);
     }
 
     /**
@@ -235,12 +239,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
 
     @Override
-    public void onClick(Movie movie) {
-        Context context = this;
-        Class destinationActivity = DetailsActivity.class;
-        Intent intent = new Intent(context, destinationActivity);
-        intent.putExtra("movieObject", movie);
-        startActivity(intent);
+    public void onClick(Movie movie, boolean posterLoaded) {
+        // Only respond to click if the poster was loaded correctly
+        if(posterLoaded) {
+            Context context = this;
+            Class destinationActivity = DetailsActivity.class;
+            Intent intent = new Intent(context, destinationActivity);
+            intent.putExtra("movieObject", movie);
+            startActivity(intent);
+        }
     }
 
     // Menu methods ========================================================
@@ -352,6 +359,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean meetsResumeConditions() {
         return ((mMoviesArray == null) && (mResumed == 1));
     }
+
 
 }
 

@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Represents a MovieAdapter
@@ -37,7 +39,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
      */
 
     public interface MovieAdapterOnClickHandler {
-        void onClick(Movie movie);
+        void onClick(Movie movie, boolean posterLoaded);
     }
 
     @Override
@@ -54,14 +56,10 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         final Movie movie = getItem(position);
 
-        movieView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mClickHandler.onClick(movie);
-            }
-        });
 
         String posterPath = movie.getMoviePosterPath();
+
+        final AtomicBoolean loaded = new AtomicBoolean(true);
 
         if (posterPath != null) {
             Picasso.with(context)
@@ -69,8 +67,25 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                     .placeholder(R.drawable.placeholder2)
                     .fit()
                     .error(R.drawable.error)
-                    .into(movieView);
+                    .into(movieView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            //
+                        }
+
+                        @Override
+                        public void onError() {
+                            loaded.set(false);
+                        }
+                    });
         }
+
+        movieView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickHandler.onClick(movie, loaded.get());
+            }
+        });
 
         return movieView;
     }
