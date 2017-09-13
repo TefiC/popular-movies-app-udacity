@@ -26,15 +26,21 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler, AdapterView.OnItemSelectedListener {
 
     /**
-     * Fields and constants
+     * Fields
      */
 
     // Tag for logging
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private String mSearchCriteria = "Most Popular"; // Default sort criteria
-    private boolean spinnerClicked = false;
-    private ArrayList<Movie> mMoviesArray;
+    private ArrayList<Movie> mMoviesArray = null;
+
+    // To determine if app is launched for the first time (0) or not (1)
+    private int mResumed = 0;
+
+    /**
+     * Constants
+     */
 
     private final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private final static String IMAGE_SIZE = "w185";
@@ -42,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * Methods
      */
+
+    // Request and update methods ========================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             mMoviesArray = savedInstanceState.getParcelableArrayList("movies");
             mSearchCriteria = savedInstanceState.getString("criteria");
 
-            setAdapter();
+            // Handle cases where there was no internet connection,
+            // no data was loaded previously but user rotates device
+            if(mMoviesArray != null) {
+                setAdapter();
+            }
         }
     }
 
@@ -206,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /**
      * Implementation of the onClick method in the MovieAdapter class
-     * It lanches an activity passing the corresponding movie object
+     * It launches an activity passing the corresponding movie object
      *
      * @param movie A Movie instance that corresponds to the item clicked
      */
@@ -275,14 +287,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             case "Top Rated":
                 try {
                     makeSearchQuery(searchCriteria);
-                    spinnerClicked = true;
                     break;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             case "Most Popular":
                 //Avoid making extra query the first time app is launched
-                if (spinnerClicked) {
+                if (mResumed == 1) {
                     try {
                         makeSearchQuery(searchCriteria);
                         break;
@@ -300,6 +311,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         //
     }
 
+    // Activity lifecycle methods ========================================================
+
     /**
      * Lifecycle method to handle cases where the user was initially
      * offline and no data was fetched and then the user reconnects
@@ -309,13 +322,25 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onResume(){
         super.onResume();
-        if(mMoviesArray == null || mMoviesArray.size() == 0) {
+        if (meetsResumeConditions()) {
             try {
                 makeSearchQuery(mSearchCriteria);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else if (mResumed == 0){
+            mResumed += 1;
         }
     }
+
+    /**
+     * Determines if the app is launched for the first time or if
+     * it is relaunched by the user from the background.
+     * @return true if the conditions are met, false otherwise.
+     */
+    public boolean meetsResumeConditions() {
+        return ((mMoviesArray == null) && (mResumed == 1));
+    }
+
 }
 
