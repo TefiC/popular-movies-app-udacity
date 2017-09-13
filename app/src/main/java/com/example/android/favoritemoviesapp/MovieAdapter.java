@@ -66,7 +66,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         if (posterPath != null) {
             Picasso.with(context)
                     .load(posterPath)
-                    .placeholder(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder2)
                     .fit()
                     .error(R.drawable.error)
                     .into(movieView);

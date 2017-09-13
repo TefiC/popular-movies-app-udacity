@@ -57,7 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Load poster
         Picasso.with(this)
                 .load(posterPath)
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder2)
                 .resize(200,250)
                 .error(R.drawable.error)
                 .into(moviePosterView);

@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/main_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="com.example.android.favoritemoviesapp.DetailsActivity">
 
@@ -18,12 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@android:color/black"
-            android:src="@drawable/pirate"/>
+            tools:src="@drawable/pirate"
+            android:contentDescription="@string/poster_description"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="6dp">
@@ -39,21 +40,21 @@
                     android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="Vote average"
+                    android:text="@string/vote_average"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent">
+                    android:background="@color/colorSecondary">
 
                     <TextView
                         android:id="@+id/movie_details_vote_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="8.6 / 10"
+                        tools:text="8.6 / 10"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
@@ -73,21 +74,21 @@
                     android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="Release date"
+                    android:text="@string/release_date"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent">
+                    android:background="@color/colorSecondary">
 
                     <TextView
                         android:id="@+id/movie_details_release_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="09/26/1996"
+                        tools:text="09-26-1996"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
@@ -104,8 +105,7 @@
             android:maxLines="14"
             android:padding="16dp"
             android:scrollbars="vertical"
-            android:text="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat." />
-
+            tools:text="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat." />
 
     </LinearLayout>
 
