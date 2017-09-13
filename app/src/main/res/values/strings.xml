@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">UWatch</string>
 
+    <!--Spinner-->
     <string-array name="sorting_options_array">
         <item>Most Popular</item>
         <item>Top Rated</item>
     </string-array>
+
+    <!--DIALOG-->
+    <string name="connection_dialog_title">WARNING</string>
+    <string name="connection_dialog_message">No Internet connection available. Please reconnect and try again.</string>
+
+
 </resources>

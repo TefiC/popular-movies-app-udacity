@@ -101,8 +101,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * @throws IOException
      */
     public void makeSearchQuery(String searchCriteria) throws IOException {
-        URL searchURL = NetworkUtils.buildURL(searchCriteria);
-        new QueryTask().execute(searchURL);
+        if(NetworkUtils.isNetworkAvailable(this)) {
+            URL searchURL = NetworkUtils.buildURL(searchCriteria);
+            new QueryTask().execute(searchURL);
+        }else {
+            NetworkUtils.createNoConnectionDialog(this);
+            mMoviesArray = null;
+        }
     }
 
     /**
@@ -228,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * Creates a Spinner feature in the menu bar with custom layout and format
      * that shows the corresponding selection, even after rotation.
+     *
      * @param menu The menu being created
      */
 
@@ -293,4 +299,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onNothingSelected(AdapterView<?> adapterView) {
         //
     }
+
+    /**
+     * Lifecycle method to handle cases where the user was initially
+     * offline and no data was fetched and then the user reconnects
+     * and resumes the app. To handle fetching automatically without
+     * user intervention.
+     */
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(mMoviesArray == null || mMoviesArray.size() == 0) {
+            try {
+                makeSearchQuery(mSearchCriteria);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+
