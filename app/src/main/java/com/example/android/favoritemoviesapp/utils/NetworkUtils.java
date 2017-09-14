@@ -37,6 +37,7 @@ public class NetworkUtils {
     final static String PARAM_QUERY = "q";
     final static String PARAM_KEY = "api_key";
 
+
     // Values to build the URL
     //    final static String API_KEY; // TODO: add MoviesDB API key
 

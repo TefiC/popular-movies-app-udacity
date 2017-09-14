@@ -66,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         // Check if there is a previous state to be restored
-        if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+        if (savedInstanceState == null
+                || !savedInstanceState.containsKey("movies")
+                || !savedInstanceState.containsKey("criteria")) {
             String defaultCriteria = "Most Popular";
             try {
                 makeSearchQuery(defaultCriteria);
@@ -78,11 +80,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             mMoviesArray = savedInstanceState.getParcelableArrayList("movies");
             mSearchCriteria = savedInstanceState.getString("criteria");
 
+            // TODO: (2) Retrieve the parcelable
+//            Parcelable gridViewState = savedInstanceState.getParcelable("gridState");
+
             // Handle cases where there was no internet connection,
             // no data was loaded previously but user rotates device
             if(mMoviesArray != null) {
                 setAdapter();
             }
+
+            // TODO: (3) Restore previous state
+//            mMainGridView.onRestoreInstanceState(gridViewState);
         }
     }
 
@@ -112,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList("movies", mMoviesArray);
         outState.putString("criteria", mSearchCriteria);
+
+        // TODO: (1) Pass GridView state as Parcelable
+//        outState.putParcelable("gridState", mMainGridView.onSaveInstanceState());
 
         super.onSaveInstanceState(outState);
     }
