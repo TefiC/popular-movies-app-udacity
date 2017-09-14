@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,9 +36,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private GridView mMainGridView;
     private MovieAdapter mMovieAdapter;
 
-    // To determine if app is launched for the first time (0) or not (1)
-    private int mResumed = 0;
-
     /**
      * Constants
      */
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
 
     // Request and update methods ========================================================
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         // Check if there is a previous state to be restored
         if (savedInstanceState == null
                 || !savedInstanceState.containsKey("movies")
-                || !savedInstanceState.containsKey("criteria")) {
-            String defaultCriteria = "Most Popular";
+                || !savedInstanceState.containsKey("criteria")
+                || !savedInstanceState.containsKey("gridScroll")) {
             try {
-                makeSearchQuery(defaultCriteria);
+                makeSearchQuery(mSearchCriteria);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -82,13 +79,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             //Get scroll position
             int position = savedInstanceState.getInt("gridScroll");
 
-            // Handle cases where there was no internet connection,
+            // Prevent cases where there was no internet connection,
             // no data was loaded previously but user rotates device
-            if(mMoviesArray != null) {
+            if (mMoviesArray != null) {
                 setAdapter();
+                mMainGridView.smoothScrollToPosition(position);
             }
-
-            mMainGridView.smoothScrollToPosition(position);
         }
     }
 
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         outState.putString("criteria", mSearchCriteria);
 
         // TODO: (1) Pass GridView first visible position (int)
-        if(mMainGridView != null) {
+        if (mMainGridView != null) {
             outState.putInt("gridScroll", mMainGridView.getFirstVisiblePosition());
         }
 
@@ -133,10 +129,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * @throws IOException
      */
     public void makeSearchQuery(String searchCriteria) throws IOException {
-        if(NetworkUtils.isNetworkAvailable(this)) {
+        Log.v(TAG, "MAKING QUERY");
+        if (NetworkUtils.isNetworkAvailable(this)) {
             URL searchURL = NetworkUtils.buildURL(searchCriteria);
             new QueryTask().execute(searchURL);
-        }else {
+        } else {
             NetworkUtils.createNoConnectionDialog(this);
             mMoviesArray = null;
         }
@@ -252,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onClick(Movie movie, boolean posterLoaded) {
         // Only respond to click if the poster was loaded correctly
-        if(posterLoaded) {
+        if (posterLoaded) {
             Context context = this;
             Class destinationActivity = DetailsActivity.class;
             Intent intent = new Intent(context, destinationActivity);
@@ -310,28 +307,30 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         String searchCriteria = parent.getItemAtPosition(pos).toString();
 
-        mSearchCriteria = searchCriteria;
+        // If the query is not searching the same criteria already selected
+        if (!mSearchCriteria.equals(searchCriteria)) {
 
-        switch (searchCriteria) {
-            case "Top Rated":
-                try {
-                    makeSearchQuery(searchCriteria);
-                    break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            case "Most Popular":
-                //Avoid making extra query the first time app is launched
-                if (mResumed == 1) {
+            mSearchCriteria = searchCriteria;
+
+            switch (searchCriteria) {
+                case "Top Rated":
                     try {
                         makeSearchQuery(searchCriteria);
                         break;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-            default:
-                break;
+                case "Most Popular":
+                    //Avoid making extra query the first time app is launched
+                    try {
+                        makeSearchQuery(searchCriteria);
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                default:
+                    break;
+            }
         }
     }
 
@@ -349,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * user intervention.
      */
     @Override
-    public void onRestart(){
+    public void onRestart() {
         super.onRestart();
         if (mMoviesArray == null) {
             try {
@@ -357,8 +356,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if (mResumed == 0){
-            mResumed += 1;
         }
     }
 }
