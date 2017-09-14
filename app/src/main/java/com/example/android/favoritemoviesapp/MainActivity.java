@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ArrayList<Movie> mMoviesArray = null;
     private GridView mMainGridView;
     private MovieAdapter mMovieAdapter;
-    private int mGridPosition;
 
     // To determine if app is launched for the first time (0) or not (1)
     private int mResumed = 0;
@@ -80,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             mMoviesArray = savedInstanceState.getParcelableArrayList("movies");
             mSearchCriteria = savedInstanceState.getString("criteria");
 
-            // TODO: (2) Retrieve the parcelable
-//            Parcelable gridViewState = savedInstanceState.getParcelable("gridState");
+            //Get scroll position
+            int position = savedInstanceState.getInt("gridScroll");
 
             // Handle cases where there was no internet connection,
             // no data was loaded previously but user rotates device
@@ -89,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 setAdapter();
             }
 
-            // TODO: (3) Restore previous state
-//            mMainGridView.onRestoreInstanceState(gridViewState);
+            mMainGridView.smoothScrollToPosition(position);
         }
     }
 
@@ -121,8 +119,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         outState.putParcelableArrayList("movies", mMoviesArray);
         outState.putString("criteria", mSearchCriteria);
 
-        // TODO: (1) Pass GridView state as Parcelable
-//        outState.putParcelable("gridState", mMainGridView.onSaveInstanceState());
+        // TODO: (1) Pass GridView first visible position (int)
+        if(mMainGridView != null) {
+            outState.putInt("gridScroll", mMainGridView.getFirstVisiblePosition());
+        }
 
         super.onSaveInstanceState(outState);
     }
@@ -349,9 +349,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * user intervention.
      */
     @Override
-    public void onResume(){
-        super.onResume();
-        if (meetsResumeConditions()) {
+    public void onRestart(){
+        super.onRestart();
+        if (mMoviesArray == null) {
             try {
                 makeSearchQuery(mSearchCriteria);
             } catch (IOException e) {
@@ -361,16 +361,5 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             mResumed += 1;
         }
     }
-
-    /**
-     * Determines if the app is launched for the first time or if
-     * it is relaunched by the user from the background.
-     * @return true if the conditions are met, false otherwise.
-     */
-    public boolean meetsResumeConditions() {
-        return ((mMoviesArray == null) && (mResumed == 1));
-    }
-
-
 }
 
