@@ -38,7 +38,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
      */
 
     public interface MovieAdapterOnClickHandler {
-        void onClick(Movie movie, boolean posterLoaded);
+        void onClick(Movie movie);
     }
 
     @Override
@@ -54,7 +54,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
 
         final Movie movie = getItem(position);
-
 
         String posterPath = movie.getMoviePosterPath();
 
@@ -82,7 +81,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         movieView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClickHandler.onClick(movie, loaded.get());
+                mClickHandler.onClick(movie);
             }
         });
 

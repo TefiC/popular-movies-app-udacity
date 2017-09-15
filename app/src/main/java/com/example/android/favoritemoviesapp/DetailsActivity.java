@@ -21,10 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_details);
         setContentView(R.layout.activity_details);
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,7 +65,7 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(posterPath)
                 .placeholder(R.drawable.placeholder2)
                 .resize(200,250)
-                .error(R.drawable.error)
+                .error(R.drawable.movie_details_error)
                 .into(moviePosterView);
 
         // Update textViews

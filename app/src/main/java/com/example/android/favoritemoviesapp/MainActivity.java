@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     // Tag for logging
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private final static String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
+    private final static String MOVIEDB_POSTER_BASE_URL = " http://image.tmdb.org/t/p/";
     private final static String IMAGE_SIZE = "w185";
 
 
@@ -247,15 +247,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
 
     @Override
-    public void onClick(Movie movie, boolean posterLoaded) {
+    public void onClick(Movie movie) {
         // Only respond to click if the poster was loaded correctly
-        if (posterLoaded) {
-            Context context = this;
-            Class destinationActivity = DetailsActivity.class;
-            Intent intent = new Intent(context, destinationActivity);
-            intent.putExtra("movieObject", movie);
-            startActivity(intent);
-        }
+        Context context = this;
+        Class destinationActivity = DetailsActivity.class;
+        Intent intent = new Intent(context, destinationActivity);
+        intent.putExtra("movieObject", movie);
+        startActivity(intent);
     }
 
     // Menu methods ========================================================
