@@ -3,6 +3,7 @@ package com.example.android.favoritemoviesapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,16 +16,24 @@ public class DetailsActivity extends AppCompatActivity {
     TextView movieVoteAverageView;
     TextView movieReleaseView;
     TextView moviePlotView;
+    TextView movieTitleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_details);
         setContentView(R.layout.activity_details);
+
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         Intent intentThatStartedThisActivity = getIntent();
 
         //Assign the views that will be populated with the movie's data
         moviePosterView = (ImageView) findViewById(R.id.movie_details_poster_view);
+        movieTitleView = (TextView) findViewById(R.id.movie_title_view);
         movieVoteAverageView = (TextView) findViewById(R.id.movie_details_vote_view);
         movieReleaseView = (TextView) findViewById(R.id.movie_details_release_view);
         moviePlotView = (TextView) findViewById(R.id.movie_details_plot_view);
@@ -48,7 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
         String movieTitle = movie.getMovieTitle();
         String posterPath = movie.getMoviePosterPath();
         Double voteAverage = movie.getMovieVoteAverage();
-        String releaseDate = movie.getMovieReleaseDate();
+        String releaseDate = extractReleaseYear(movie.getMovieReleaseDate());
         String moviePlot = movie.getMoviePlot();
 
         // Change activity label to be movie title
@@ -66,7 +75,14 @@ public class DetailsActivity extends AppCompatActivity {
         movieVoteAverageView.setText(voteAverage.toString());
         movieReleaseView.setText(releaseDate);
         moviePlotView.setText(moviePlot);
+        movieTitleView.setText(movieTitle);
 
+
+    }
+
+    private String extractReleaseYear(String releaseDate) {
+        String releaseYear = releaseDate.split("-")[0];
+        return releaseYear;
     }
 
 }

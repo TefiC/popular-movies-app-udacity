@@ -43,7 +43,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         RectangularImageView movieView;
 
         if (convertView == null) {
