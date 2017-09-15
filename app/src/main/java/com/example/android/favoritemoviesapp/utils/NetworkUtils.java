@@ -41,7 +41,6 @@ public class NetworkUtils {
     // Values to build the URL
     //    final static String API_KEY; // TODO: add MoviesDB API key
 
-
     /**
      * Methods
      */
