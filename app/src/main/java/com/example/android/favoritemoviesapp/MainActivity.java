@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler, AdapterView.OnItemSelectedListener {
 
-    /**
+    /*
      * Fields
      */
 
@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ArrayList<Movie> mMoviesArray = null;
     private GridView mMainGridView;
     private MovieAdapter mMovieAdapter;
+    ProgressBar mProgressBar;
 
-    /**
+    /*
      * Constants
      */
 
@@ -48,9 +49,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static final String IMAGE_SIZE = "w185";
 
 
-    ProgressBar mProgressBar;
-
-    /**
+    /*
      * Methods
      */
 
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-    /**
+    /*
      * Getters
      */
 
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         return mMoviesArray;
     }
 
-    /**
+    /*
      * Setters
      */
 
@@ -105,10 +104,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMoviesArray = moviesArray;
     }
 
-
     /**
-     * Saves the current moviesArray to avoid fetching data from API on rotation
-     *
+     * Saves the current moviesArray, searchCriteria and scroll position
+     * to avoid fetching data from API when the device is rotated
      * @param outState The state that will be passed to onCreate
      */
     @Override
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         outState.putParcelableArrayList("movies", mMoviesArray);
         outState.putString("criteria", mSearchCriteria);
 
-        // TODO: (1) Pass GridView first visible position (int)
+        // If the view was loaded correctly
         if (mMainGridView != null) {
             outState.putInt("gridScroll", mMainGridView.getFirstVisiblePosition());
         }
@@ -124,19 +122,24 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Restores scroll for the main GridView when the device is rotated
+     * @param savedInstanceState The previous state to be restored that contains
+     *                           a "gridScroll" key with the previous scroll position
+     */
     private void restoreScrollPosition(Bundle savedInstanceState) {
-        //Get scroll position
         int position = savedInstanceState.getInt("gridScroll");
         mMainGridView.smoothScrollToPosition(position);
     }
 
     /**
-     * Makes a query to the MoviesDB API
-     *
-     * @throws IOException
+     * Makes a query to the MoviesDB API if there is internet connection
+     * otherwise, it shows an dialog to alert the user and sets
+     * the movie array to null
+     * @param searchCriteria The criteria the user chose to fetch movies data.
+     *                       Either "Most Popular" or "Top Rated"
      */
-    public void makeSearchQuery(String searchCriteria) throws IOException {
-        Log.v(TAG, "MAKING QUERY");
+    public void makeSearchQuery(String searchCriteria) {
         if (NetworkUtils.isNetworkAvailable(this)) {
             URL searchURL = NetworkUtils.buildURL(searchCriteria);
             new QueryTask().execute(searchURL);
@@ -148,8 +151,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     /**
      * An AsyncTask to handle network requests to MovieDB API
+     * and updates the data received to update the UI
      */
-    public class QueryTask extends AsyncTask<URL, Void, String> {
+    private class QueryTask extends AsyncTask<URL, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -162,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             String searchResults = null;
 
             try {
+                //Make query and store the results
                 searchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -179,10 +184,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * From the data received from the network request, create an array of Movie objects
-     * to store in a class member variable
-     *
-     * @param JSONString the JSON response in String format
+     * Set the mMoviesArray to be an array of Movie objects
+     * created from the data received from the API request
+     * @param JSONString JSON response in String format
+     *                   that contains data to make
+     *                   the Movie objects
      */
     public void createMovieObjects(String JSONString) {
 
@@ -213,8 +219,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * Creates a Movie object from a JSON Object fetched from the network
-     *
+     * Creates a Movie object from a JSON Object fetched from the API request
+     * by filling its title, poster URL (adding a base path), plot, release date
+     * and vote average.
      * @param movie a JSONObject containing the data for a movie
      * @return Movie object
      */
@@ -235,7 +242,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * Sets the Movie Adapter to the GridView, the main layout that will contain movie posters
+     * Sets the Movie Adapter for the GridView
+     * the main layout that will contain movie posters
      */
     private void setAdapter() {
         mMovieAdapter = new MovieAdapter(MainActivity.this, mMoviesArray, this);
@@ -247,12 +255,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * Implementation of the onClick method in the MovieAdapter class
-     * It launches an activity passing the corresponding movie object
-     *
+     * Implementation of the onClick method in the MovieAdapter class.
+     * It launches an activity passing the corresponding Movie object
+     * through an intent
      * @param movie A Movie instance that corresponds to the item clicked
      */
-
     @Override
     public void onClick(Movie movie) {
         // Only respond to click if the poster was loaded correctly
@@ -265,6 +272,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     // Menu methods ========================================================
 
+    /**
+     * Creates the options menu and spinner
+     * @param menu menu to be created
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -274,12 +286,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * Creates a Spinner feature in the menu bar with custom layout and format
-     * that shows the corresponding selection, even after rotation.
-     *
+     * Creates a Spinner feature in the menu bar with custom layout
+     * and format that displays the corresponding selection
      * @param menu The menu being created
      */
-
     private void createSpinner(Menu menu) {
 
         // Get spinner and spinner view
@@ -312,7 +322,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         String searchCriteria = parent.getItemAtPosition(pos).toString();
 
-        // If the query is not searching the same criteria already selected
+        /*
+         If the query is not searching the same criteria already selected
+         set this as the new selection and make a new API request
+          */
         if (!mSearchCriteria.equals(searchCriteria)) {
 
             mSearchCriteria = searchCriteria;
@@ -326,7 +339,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                         e.printStackTrace();
                     }
                 case "Most Popular":
-                    //Avoid making extra query the first time app is launched
                     try {
                         makeSearchQuery(searchCriteria);
                         break;
@@ -349,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * Lifecycle method to handle cases where the user was initially
      * offline and no data was fetched and then the user reconnects
-     * and resumes the app. To handle fetching automatically without
+     * and restarts the app. To handle fetching automatically without
      * user intervention.
      */
     @Override
