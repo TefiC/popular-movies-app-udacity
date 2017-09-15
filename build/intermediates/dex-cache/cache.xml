@@ -3,15 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\estef\.android\build-cache\109147b0ba31b95dcdd7a68e3d854e210f8081d1\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
-        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_49a7c91ee8f326534748ab38863738176352e0f6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -21,47 +12,11 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\estef\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_fe264bb9d2b846d92862d0c04c025c96e8645c8c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\estef\.android\build-cache\6844fa05e937d67425001e66309e86c8d07dec0a\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="0b70332550c3abba8f352ea98eea10699be3b86f">
-        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6b77611bf1c0c00797eabeb2dd0e9a62fdb38dbb\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\estef\.android\build-cache\660ce9a1ce1bfd97e2f04358bcae07d9bd4f4f73\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
-        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f85cc4b870e44c9ae87cfdf3bf75a0a797d5ff11\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\estef\.android\build-cache\2ceb10a23ddd7ce04f04632db39237be5b01f972\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
-        <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5dbe67121e299ffee1e14f004fe374adb46de2cb\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="4716b4f598cbe8565f9379622de40fc9eb571925">
+        sha1="5c6b9b433ac7c66c8daa565834519278cf768f10">
         <dex dex="C:\Users\estef\Documents\UDACITY\Android-scholarship\Program\Project-1\Project-1\FavoriteMoviesApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_9c2e90f42bc09eaf65e208ea04d51b995941b913\classes.dex" />
     </item>
 

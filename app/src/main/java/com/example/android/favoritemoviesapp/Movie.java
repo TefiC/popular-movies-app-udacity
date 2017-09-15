@@ -4,10 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Represents a Movie which contains a Title, Release Date, a reference to a poster, a vote average and a plot.
+ * Represents a Movie which contains a title, release date,
+ * a reference to a poster path, a user vote average and plot.
  */
 
 public class Movie implements Parcelable {
+
+    /*
+     * Fields
+     */
 
     private String movieTitle;
     private String movieReleaseDate;
@@ -15,7 +20,7 @@ public class Movie implements Parcelable {
     private double movieVoteAverage;
     private String moviePlot;
 
-    /**
+    /*
      * Constructors
      */
 
@@ -35,8 +40,8 @@ public class Movie implements Parcelable {
         moviePlot = in.readString();
     }
 
-    /**
-     * Getter methods
+    /*
+     * Getters
      */
 
     public String getMovieTitle() {
@@ -59,8 +64,8 @@ public class Movie implements Parcelable {
         return this.moviePlot;
     }
 
-    /**
-     * Setter methods
+    /*
+     * Setters
      */
 
     public void setMovieTitle(String title) {
@@ -83,9 +88,8 @@ public class Movie implements Parcelable {
         this.moviePlot = plot;
     }
 
-
-    /**
-     * Implementing parcelable class
+    /*
+     * Implementing parcelable
      */
 
     @Override
