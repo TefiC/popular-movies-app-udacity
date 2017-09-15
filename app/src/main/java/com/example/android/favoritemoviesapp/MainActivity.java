@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     // Tag for logging
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private final static String MOVIEDB_POSTER_BASE_URL = " http://image.tmdb.org/t/p/";
-    private final static String IMAGE_SIZE = "w185";
+    // Constants to form the movie poster URL
+    private static final String MOVIEDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
+    private static final String IMAGE_SIZE = "w185";
 
 
     ProgressBar mProgressBar;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * Methods
      */
 
-    // Request and update methods ========================================================
+    // Methods that request data and update ========================================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,24 +68,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 || !savedInstanceState.containsKey("movies")
                 || !savedInstanceState.containsKey("criteria")
                 || !savedInstanceState.containsKey("gridScroll")) {
+
             try {
                 makeSearchQuery(mSearchCriteria);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         } else {
             //Retrieve data
             mMoviesArray = savedInstanceState.getParcelableArrayList("movies");
             mSearchCriteria = savedInstanceState.getString("criteria");
 
-            //Get scroll position
-            int position = savedInstanceState.getInt("gridScroll");
-
             // Prevent cases where there was no internet connection,
-            // no data was loaded previously but user rotates device
+            // no data was loaded previously but the user rotates device
             if (mMoviesArray != null) {
                 setAdapter();
-                mMainGridView.smoothScrollToPosition(position);
+                restoreScrollPosition(savedInstanceState);
             }
         }
     }
@@ -121,6 +122,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         super.onSaveInstanceState(outState);
+    }
+
+    private void restoreScrollPosition(Bundle savedInstanceState) {
+        //Get scroll position
+        int position = savedInstanceState.getInt("gridScroll");
+        mMainGridView.smoothScrollToPosition(position);
     }
 
     /**
