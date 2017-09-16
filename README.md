@@ -1,13 +1,13 @@
 ### Android Developer Nanodegree - Udacity
 ---
-###Project 1 - Stage 1 (Popular Movies App)
+### Project 1 - Stage 1 (Popular Movies App)
 ---
 
 ### UWatch
 
 Popular movies App that displays information on the Top 20 Most Popular or Top Rated movies (according the criteria selected by the user).
 
-######These are the different features you will find on this app:
+###### These are the different features you will find on this app:
 
 1 - When you first access the app's main screen, you will see a circular progress bar indicating data is being fetched. When data has been received and it starts to load, a custom placeholder image will be shown on each spot where there will be a movie poster but it will fade out to show the actual poster after it's completely loaded.
 
@@ -37,7 +37,7 @@ There is a comment on the NetworkUtils class indicating where you need to includ
 
 ---
 
-####Technical features
+#### Technical features
 ---
 
 - Movie posters are loaded using the [Picasso](http://square.github.io/picasso/) library that handles image loading.
@@ -45,7 +45,7 @@ There is a comment on the NetworkUtils class indicating where you need to includ
 <br>
 
 ---
-####Handling errors
+#### Handling errors
 ---
 
 - **No internet connection:**  If there no internet connection available, a dialog box will alert the user. If the app has loaded data previously, this data will remain responsive but the user won't be able to request new data until there is an internet connection. 
@@ -58,7 +58,7 @@ There is a comment on the NetworkUtils class indicating where you need to includ
 
 ---
 
-#####Attributions
+##### Attributions
 ---
 
 - This app is powered by [TheMovieDB API](https://www.themoviedb.org/) which provides movies data and posters
