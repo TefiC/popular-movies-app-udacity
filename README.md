@@ -13,6 +13,8 @@ Popular movies App that displays information on the Top 20 Most Popular or Top R
 
 2 - Movie posters are displayed on a grid. The number of columns will adjust automatically depending on the device width and orientation.
 
+<img src="screenshots/main_screen.png" width="250px" height="400px"> 
+
 3 -  You can select the sorting criteria you would like to browse through by clicking or tapping on the spinner that shows the current selection. A dropdown menu will be displayed with the options available. Options are: "Most Popular" movies or "Top rated" movies. 
 
 The user interface will update automatically to respond to this new selection.
