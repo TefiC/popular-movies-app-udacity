@@ -48,7 +48,7 @@ There is a comment on the NetworkUtils class indicating where you need to includ
 #### Handling errors
 ---
 
-- **No internet connection:**  If there no internet connection available, a dialog box will alert the user. If the app has loaded data previously, this data will remain responsive but the user won't be able to request new data until there is an internet connection. 
+- **No internet connection:**  If there is no internet connection available, a dialog box will alert the user. If the app has loaded data previously, this data will remain responsive but the user won't be able to request new data until there is an internet connection. 
 
     If the user had no internet connection and no data was loaded previously but he/she reconnects and restarts the app, data will be fetched automatically.
 
@@ -70,3 +70,9 @@ There is a comment on the NetworkUtils class indicating where you need to includ
 
 
 - StackOverflow forums were extremely helpful during this project.
+
+- The  isNetworkAvailable method in NetworkUtils class was based on an answer from this [StackOverflow discussion](https://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android)  
+
+- Found for the Collapsing Toolbar in Android documentation and [this blog](http://blog.grafixartist.com/toolbar-animation-with-android-design-support-library/)
+
+- Spinner information found in StackOverflow forums

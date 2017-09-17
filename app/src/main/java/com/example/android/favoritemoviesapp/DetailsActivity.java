@@ -16,11 +16,11 @@ public class DetailsActivity extends AppCompatActivity {
      * Fields
      */
 
-    ImageView moviePosterView;
-    TextView movieVoteAverageView;
-    TextView movieReleaseView;
-    TextView moviePlotView;
-    TextView movieTitleView;
+    private ImageView moviePosterView;
+    private TextView movieVoteAverageView;
+    private TextView movieReleaseView;
+    private TextView moviePlotView;
+    private TextView movieTitleView;
 
     /*
      * Constants
@@ -96,7 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
         if(posterPath != null) {
             Picasso.with(this)
                     .load(posterPath)
-                    .placeholder(R.drawable.placeholder2)
+                    .placeholder(R.drawable.placeholder)
                     .resize(200,300)
                     .error(R.drawable.movie_details_error)
                     .into(moviePosterView);

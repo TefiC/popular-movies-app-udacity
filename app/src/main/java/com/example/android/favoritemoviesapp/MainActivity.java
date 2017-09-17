@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private String mSearchCriteria = "Most Popular"; // Default sort criteria
     private ArrayList<Movie> mMoviesArray = null;
     private GridView mMainGridView;
-    ProgressBar mProgressBar;
+    private ProgressBar mProgressBar;
 
     /*
      * Constants
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      * @param searchCriteria The criteria the user chose to fetch movies data.
      *                       Either "Most Popular" or "Top Rated"
      */
-    public void makeSearchQuery(String searchCriteria) {
+    private void makeSearchQuery(String searchCriteria) {
         if (NetworkUtils.isNetworkAvailable(this)) {
             URL searchURL = NetworkUtils.buildURL(searchCriteria);
             new QueryTask().execute(searchURL);
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             String searchResults = null;
 
             try {
-                //Make query and store the results
+                // Make query and store the results
                 searchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      *                   that contains data to make
      *                   the Movie objects
      */
-    public void createMovieObjects(String JSONString) {
+    private void createMovieObjects(String JSONString) {
 
         try {
             JSONObject JSONObject = new JSONObject(JSONString);
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     private Movie createMovie(JSONObject movie) {
         try {
-            //Movie data
+            // Movie data
             String title = movie.getString("title");
             String posterPath = MOVIEDB_POSTER_BASE_URL + IMAGE_SIZE + movie.getString("poster_path");
             String plot = movie.getString("overview");

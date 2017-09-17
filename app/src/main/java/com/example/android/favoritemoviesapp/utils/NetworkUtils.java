@@ -39,7 +39,8 @@ public class NetworkUtils {
 
 
     // Values to build the URL
-    //    private final static String API_KEY; // TODO: add MoviesDB API key
+    // TODO: Uncomment this variable and initialize it by adding your "The Movie Database" API key
+    // private final static String API_KEY = "YOUR API KEY"
 
     /*
      * Methods
@@ -121,7 +122,7 @@ public class NetworkUtils {
     }
 
     /**
-     * Determine if there is an internet connection available. Copyright (1)
+     * Determine if there is an internet connection available.
      *
      * @return true if there is, false if there isn't.
      */
@@ -160,9 +161,3 @@ public class NetworkUtils {
         return criteria;
     }
 }
-
-//Copyright
-
-/* (1)
-https://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android
- */

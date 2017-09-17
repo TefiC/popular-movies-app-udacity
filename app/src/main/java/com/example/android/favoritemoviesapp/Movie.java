@@ -76,8 +76,8 @@ public class Movie implements Parcelable {
         this.movieReleaseDate = releaseDate;
     }
 
-    public void setMoviePosterPath(int posterId) {
-        this.moviePosterPath = moviePosterPath;
+    public void setMoviePosterPath(String posterPath) {
+        this.moviePosterPath = posterPath;
     }
 
     public void setMovieVoteAverage(double voteAverage) {

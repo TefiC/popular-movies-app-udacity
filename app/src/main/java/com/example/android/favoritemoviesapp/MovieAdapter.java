@@ -64,13 +64,16 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         // Get movie data associated with this view
         Movie movie = getItem(position);
-        String posterPath = movie.getMoviePosterPath();
 
-        // Set data on the corresponding view
-        loadMoviePoster(posterPath, movieView);
+        if(movie != null) {
+            String posterPath = movie.getMoviePosterPath();
 
-        // Listener
-        setOnClickListener(movieView, movie);
+            // Set data on the corresponding view
+            loadMoviePoster(posterPath, movieView);
+
+            // Listener
+            setOnClickListener(movieView, movie);
+        }
 
         return movieView;
     }
@@ -135,7 +138,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         if(posterPath != null) {
             Picasso.with(context)
                     .load(posterPath)
-                    .placeholder(R.drawable.placeholder2)
+                    .placeholder(R.drawable.placeholder)
                     .fit()
                     .error(R.drawable.error)
                     .into(movieView);

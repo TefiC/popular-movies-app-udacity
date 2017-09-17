@@ -6,20 +6,18 @@
         <item>Most Popular</item>
         <item>Top Rated</item>
     </string-array>
-    
-    <!--DIALOG-->
+
+    <string name="spinner_title">Sorting</string>
+
+    <!--Dialog-->
     <string name="connection_dialog_title">WARNING</string>
     <string name="connection_dialog_message">No Internet connection available. Please reconnect and try again.</string>
     <string name="ok">OK</string>
 
-    <!--DETAILS ACTIVITY-->
+    <!--Details activity-->
     <string name="vote_average">Rating</string>
     <string name="release_date">Released</string>
     <string name="poster_description">Movie poster</string>
     <string name="plot">Plot</string>
 
-    <!--TEST-->
-    <string name="title">Pirates of the Carribean: Dean Men\'s chest</string>
-    <string name="loremipsum">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</string>
 </resources>
